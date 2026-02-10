@@ -7,8 +7,9 @@ from app.domain.enums import TaskStatus
 from app.domain.exceptions import InvalidStatusTransition, ValidationError, NotFoundError
 from app.domain.priority import PriorityStrategy, PriorityContext
 
+# el data class ya crea el constructor, por eso no lo declaramos
 
-@dataclass          # el data class ya crea el constructor, por eso no lo declaramos
+@dataclass          
 class Project:
     name: str
     id: str = field(default_factory=lambda: str(uuid4))
@@ -24,13 +25,12 @@ class Project:
         
 @dataclass
 class Task:
-    id: str = field(default_factory=lambda: str(uuid4))
     title: str
     project_id: str
     strategy: PriorityStrategy
     due_date: date | None = None        # None es el valor default del due_date ( = None)
     _status: TaskStatus = field(default_factory=TaskStatus.TODO)    # el underscore es para hacer la variable oculta (private)
-    
+    id: str = field(default_factory=lambda: str(uuid4))
     
     def __post_init__(self) -> None:
         if not self.title or len(self.name.strip()) < 5:

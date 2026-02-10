@@ -31,10 +31,18 @@ def to_http(e:Exception) -> HTTPException:
         return HTTPException(status_code = 500, details='Internal server error')
     
     
-@router.post('/projects', responde_model = ProjectOut, status_code = 201)
+@router.post('/projects', response_model = ProjectOut, status_code = 201)
 def create_project(body: ProjectCreate, service:ProjectService = Depends(get_project_service)):
     try:
         project = service.create(body.name)
         return ProjectOut(id=project.id, name=project.name)
     except Exception as e:
         raise to_http(e)
+
+
+# TO-DO: GET /projects
+# TO-DO: GET /projects/{project_id}
+# @router.get('/projects/{project_id}', response_model=ProjectOut)
+# TO-DO POST /projects/{project_id}/tasks
+# TO-DO GET /projects/{project_id}/tasks
+# TO-DO DELETE /tasks/{task_id}
