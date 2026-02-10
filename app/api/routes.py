@@ -33,4 +33,8 @@ def to_http(e:Exception) -> HTTPException:
     
 @router.post('/projects', responde_model = ProjectOut, status_code = 201)
 def create_project(body: ProjectCreate, service:ProjectService = Depends(get_project_service)):
-    pass
+    try:
+        project = service.create(body.name)
+        return ProjectOut(id=project.id, name=project.name)
+    except Exception as e:
+        raise to_http(e)
