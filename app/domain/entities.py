@@ -10,13 +10,12 @@ from app.domain.priority import PriorityStrategy, PriorityContext
 
 @dataclass          # el data class ya crea el constructor, por eso no lo declaramos
 class Project:
+    name: str
     id: str = field(default_factory=lambda: str(uuid4))
     """ lamba es una funcion anonima que regresa el uuid4 como string
             - id ya esta inicializada (antes del constructor)
             - usamos el field para que darle un valor cuando se crea
     """
-
-    name: str
     
     def __post_init__(self) -> None:
         if not self.name or len(self.name.strip()) < 5:
