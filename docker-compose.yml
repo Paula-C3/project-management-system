@@ -1,4 +1,27 @@
 services:
+
+  db:
+    image: postgres:16
+    container_name: project-management-system-db
+    environment:
+      POSTGRES_DB: project-management
+      POSTGRES_USER: root
+      POSTGRESS_PASSWORD: root
+    ports:
+      -"5432:5432"
+    volumes:
+      -pm-data:/var/lib/postgresql/data
+
+  db-ui:
+    image: dpage/pgadmin4
+    environment:
+      - PGADMIN_DEFAULT_EMAIL=caicedo.paa@gmail.com
+      - PGADMIN_DEFAULT_PASSWORD=root
+    volumes:
+      -db-ui-data:/var/lib.pgadmin
+    ports:
+      -"8085:8085"
+
   api:
     build: .
     container_name: project-management-system
