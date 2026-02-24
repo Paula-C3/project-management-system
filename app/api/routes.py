@@ -2,6 +2,7 @@ from fastapi import APIRouter, Depends, HTTPException
 
 """ Como es la capa de aplicación, aqui uso todas las capas externas! """
 
+from app.infra.repo_factory import build_repo_factory
 from app.domain.exceptions import DomainError, NotFoundError, InvalidStatusTransition, ValidationError
 from app.repositories.memory import InMemoryProjectRepo, InMemoryTaskRepo
 from app.services.proyect_service import ProjectService
@@ -11,6 +12,7 @@ from app.schemas.dto import ProjectCreate, ProjectOut, TaskCreate, TaskOut, Task
 
 router = APIRouter()    # dirige el trafico a los distintos urls (o End Points) / puntos de conexion
 
+factory = build_repo_factory()
 project_repo = InMemoryProjectRepo()    # aqui instancio los repo
 task_repo = InMemoryTaskRepo()
 
